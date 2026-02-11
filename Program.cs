@@ -2,15 +2,19 @@ using GameMatcher.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Gets the Steam API key specified in 'secrets.json' file.
-var steamApiKey = builder.Configuration["Steam:ServiceApiKey"];
-
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+// Bind secrets.json section to SteamOptions
+builder.Services.Configure<SteamOptions>(
+    builder.Configuration.GetSection("Steam"));
+
 // Allows for calling external web APIs
 builder.Services.AddHttpClient();
+
+// Register the Steam service
+builder.Services.AddScoped<SteamService>();
 
 var app = builder.Build();
 

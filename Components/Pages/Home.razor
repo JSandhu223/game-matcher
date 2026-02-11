@@ -1,4 +1,9 @@
 ﻿@page "/"
+@rendermode InteractiveServer
+@inject IHttpClientFactory ClientFactory
+@inject IConfiguration Configuration
+@inject SteamService SteamService
+
 
 <PageTitle>Home</PageTitle>
 
@@ -7,3 +12,54 @@
 Welcome to your new app.
 
 <Counter IncrementAmount="10" />
+
+<div>
+	<button @onclick="GetPlaceholderJSON">Get Placeholder JSON</button>
+	<p>@responseResult</p>
+</div>
+
+
+<button @onclick="GetSteamUser">Load Player</button>
+
+@if (player != null)
+{
+	<p>Name: @player.PersonaName</p>
+	<img src="@player.AvatarFull" />
+}
+
+@code {
+	string responseResult = "Click the button above";
+
+	string steamResponseResult = "Click the button above to get a steam user's info";
+
+	PlayerSummary? player;
+
+	private async Task GetPlaceholderJSON(MouseEventArgs args)
+	{
+		// The HTTP GET request we will send to the API endpoint
+		using var request = new HttpRequestMessage(HttpMethod.Get,
+			"https://jsonplaceholder.typicode.com/todos/1");
+
+		// The client is used for sending HTTP requests and receiving HTTP responses from a resource identified by a URI
+		var client = ClientFactory.CreateClient();
+
+		// Send the HTTP request and get the response
+		using var response = await client.SendAsync(request);
+
+		if (response.IsSuccessStatusCode)
+		{
+			var responseStream = await response.Content.ReadAsStringAsync();
+			responseResult = responseStream;
+
+		}
+		else
+		{
+			responseResult = $"Request failed with status code: {response.StatusCode.ToString()}";
+		}
+	}
+
+	private async Task GetSteamUser(MouseEventArgs args)
+	{
+		player = await SteamService.GetPlayerSummaryAsync("76561198023414915");
+	}
+}
