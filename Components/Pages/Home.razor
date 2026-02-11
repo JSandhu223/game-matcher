@@ -7,19 +7,21 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Welcome to the Steam Game Matcher</h1>
 
-Welcome to your new app.
+<p>Find games that you share in common with your Steam friends!</p>
 
-<Counter IncrementAmount="10" />
+@* <Counter IncrementAmount="10" /> *@
 
-<div>
+@* <div>
 	<button @onclick="GetPlaceholderJSON">Get Placeholder JSON</button>
 	<p>@responseResult</p>
+</div> *@
+
+<div>
+	<input @bind="lookupID" placeholder="Enter your steam ID" />
+	<button @onclick="GetSteamUser">Load Player</button>
 </div>
-
-
-<button @onclick="GetSteamUser">Load Player</button>
 
 @if (player != null)
 {
@@ -33,6 +35,8 @@ Welcome to your new app.
 	string steamResponseResult = "Click the button above to get a steam user's info";
 
 	PlayerSummary? player;
+
+	string lookupID = string.Empty;
 
 	private async Task GetPlaceholderJSON(MouseEventArgs args)
 	{
@@ -60,6 +64,6 @@ Welcome to your new app.
 
 	private async Task GetSteamUser(MouseEventArgs args)
 	{
-		player = await SteamService.GetPlayerSummaryAsync("76561198023414915");
+		player = await SteamService.GetPlayerSummaryAsync(lookupID);
 	}
 }
