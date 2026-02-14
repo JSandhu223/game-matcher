@@ -18,9 +18,11 @@
 	<p>@responseResult</p>
 </div> *@
 
+<h3>HTTP Call Counter: @httpCallCount</h3>
+
 <div>
 	<input @bind="lookupID" id="steam-lookup" placeholder="Enter steam ID" />
-	<button @onclick="GetSteamUser">Search User</button>
+	<button type="button" @onclick="GetSteamUser">Search User</button>
 	@* <button @onclick="GetFriends">Load Friend List</button> *@
 </div>
 
@@ -46,6 +48,8 @@
 </table>
 
 @code {
+	int httpCallCount = 0;
+
 	string responseResult = "Click the button above";
 
 	string lookupID = "76561198063946970";
@@ -85,6 +89,8 @@
 	// Returns the player summary of the user ID supplied in the input field
 	private async Task GetSteamUser(MouseEventArgs args)
 	{
+		httpCallCount++;
+
 		player = await SteamService.GetPlayerSummaryAsync(lookupID);
 		await GetFriends();
 	}

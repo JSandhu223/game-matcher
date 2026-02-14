@@ -21,7 +21,6 @@ public class SteamService
         // The API returns a list of players, but since we're querying for a single Steam ID, we will take the first one.
         // GetFromJSONAsync will automatically deserialize the JSON response into our PlayerSummaryResponse model.
         var response = await _httpClient.GetFromJsonAsync<PlayerSummaryResponse>(url);
-        var responseString = await _httpClient.GetStringAsync(url);
 
         return response?.Response.Players.FirstOrDefault();
     }
@@ -33,7 +32,6 @@ public class SteamService
         // Deserialize the JSON response into a list of Friend objects. The API returns a list of friends, but since we're querying for a single Steam ID, we will take the first one.
         //var response = await _httpClient.GetFromJsonAsync<List<Friend>>(url);
         var response = await _httpClient.GetFromJsonAsync<FriendListResponse>(url);
-        var responseString = await _httpClient.GetStringAsync(url);
 
         // View the raw JSON response in the console for debugging purposes.
         //var json = await _httpClient.GetFromJsonAsync<JsonDocument>(url);
@@ -63,7 +61,6 @@ public class SteamService
         // The API returns a list of players, but since we're querying for a single Steam ID, we will take the first one.
         // GetFromJSONAsync will automatically deserialize the JSON response into our PlayerSummaryResponse model.
         var response = await _httpClient.GetFromJsonAsync<PlayerSummaryResponse>(url);
-        var responseString = await _httpClient.GetStringAsync(url);
         return response?.Response.Players;
     }
 }
