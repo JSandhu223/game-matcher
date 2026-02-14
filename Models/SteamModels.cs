@@ -2,18 +2,25 @@
 
 public class PlayerSummaryResponse
 {
+    [JsonPropertyName("response")]
     public PlayerContainer Response { get; set; } = new();
 }
 
 public class PlayerContainer
 {
+    [JsonPropertyName("players")]
     public List<PlayerSummary> Players { get; set; } = new();
 }
 
 public class PlayerSummary
 {
+    [JsonPropertyName("steamid")]
     public string SteamId { get; set; } = "";
+
+    [JsonPropertyName("personaname")]
     public string PersonaName { get; set; } = "";
+
+    [JsonPropertyName("avatarfull")]
     public string AvatarFull { get; set; } = "";
 }
 
