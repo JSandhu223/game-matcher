@@ -43,21 +43,24 @@ public class SteamService
     // Used to get friend summaries in batches, since the GetPlayerSummaries API endpoint has a limit of 100 Steam IDs per request.
     public async Task<List<PlayerSummary>?> GetFriendSummariesAsync(List<string> steamIds)
     {
-        StringBuilder ids = new StringBuilder();
-        for (int i = 0; i < steamIds.Count; i++)
-        {
-            if (i == steamIds.Count - 1)
-            {
-                ids.Append(steamIds[i]);
-            }
-            else
-            {
-                ids.Append($"{steamIds[i]},");
-            }
-        }
+        //StringBuilder ids = new StringBuilder();
+        //for (int i = 0; i < steamIds.Count; i++)
+        //{
+        //    if (i == steamIds.Count - 1)
+        //    {
+        //        ids.Append(steamIds[i]);
+        //    }
+        //    else
+        //    {
+        //        ids.Append($"{steamIds[i]},");
+        //    }
+        //}
+
+        // Join all the Steam IDs into a single comma-separated string, which is the format required by the GetPlayerSummaries API endpoint.
+        string ids = string.Join(",", steamIds);
 
         var url = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/" +
-                  $"?key={_apiKey}&steamids={ids.ToString()}";
+                  $"?key={_apiKey}&steamids={ids}";
         // The API returns a list of players, but since we're querying for a single Steam ID, we will take the first one.
         // GetFromJSONAsync will automatically deserialize the JSON response into our PlayerSummaryResponse model.
         var response = await _httpClient.GetFromJsonAsync<PlayerSummaryResponse>(url);
