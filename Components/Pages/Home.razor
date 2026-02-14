@@ -42,7 +42,7 @@
 		<tr>
 			<td>Friend Name: @p.PersonaName</td>
 			<td>Status: @p.PersonaState</td>
-			<td><img src="@p.AvatarFull" /></td>
+			<td><img src="@p.AvatarMedium" /></td>
 		</tr>
 	}
 </table>
@@ -103,7 +103,7 @@
 		// Holds the steam IDs of the friends in batches
 		// TODO: Implement batch size calculation based on the number of friends in the friend list
 		List<string> friendsBatch = new();
-		int batchSize = 10;
+		int batchSize = 50;
 
 		foreach (Friend friend in friendsList)
 		{
