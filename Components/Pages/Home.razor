@@ -37,12 +37,14 @@
 
 <h3>Friends Result</h3>
 <table>
-	@foreach (PlayerSummary p in friendSummaries)
+	@* @foreach (PlayerSummary p in friendSummaries) *@
+	@for (int i = 0; i < friendSummaries.Count; i++)
 	{
 		<tr>
-			<td>Friend Name: @p.PersonaName</td>
-			<td>Status: @p.PersonaState</td>
-			<td><img src="@p.AvatarMedium" /></td>
+			<td>#@i</td>
+			<td>Friend Name: @friendSummaries[i].PersonaName</td>
+			<td>Status: @friendSummaries[i].PersonaState</td>
+			<td><img src="@friendSummaries[i].AvatarMedium" /></td>
 		</tr>
 	}
 </table>
@@ -103,21 +105,22 @@
 		// Holds the steam IDs of the friends in batches
 		// TODO: Implement batch size calculation based on the number of friends in the friend list
 		List<string> friendsBatch = new();
-		int batchSize = 50;
+		int batchSize = 100;
 
-		foreach (Friend friend in friendsList)
+		// foreach (Friend friend in friendsList)
+		for (int i = 0; i < friendsList.Count; i++)
 		{
-			if (friendsBatch.Count < batchSize)
+			if (friendsBatch.Count < batchSize && i != (friendsList.Count) - 1)
 			{
-				friendsBatch.Add(friend.SteamId);
+				friendsBatch.Add(friendsList[i].SteamId);
 			}
 
 			else
 			{
 				var summaries = await SteamService.GetFriendSummariesAsync(friendsBatch);
-				friendSummaries = summaries ?? new();
+				friendSummaries.AddRange(summaries ?? new());
 				friendsBatch.RemoveRange(0, friendsBatch.Count);
-				break;
+				// break;
 			}
 		}
 	}
