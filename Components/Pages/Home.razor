@@ -32,20 +32,25 @@
 	<img src="@player.AvatarFull" />
 }
 
+<table>
+	<tr>
+		<td>Oil</td>
+		<td>Oh yo</td>
+	</tr>
+</table>
+
 <h3>Friends Result</h3>
-@if (friendsList.Count != 0)
-{
-	foreach (Friend friend in friendsList)
+<table>
+	@foreach (Friend friend in friendsList)
 	{
-		<p>Friend Steam ID: @friend.SteamId</p>
-		<p>Relationship: @friend.Relationship</p>
-		<p>Friend Since: @friend.FriendSince</p>
+		<tr>
+			<td>Friend Steam ID: @friend.SteamId</td>
+			<td>Relationship: @friend.Relationship</td>
+			<td>Friend Since: @friend.FriendSince</td>
+		</tr>
 	}
-}
-else
-{
-	<p>friendsList is empty!</p>
-}
+</table>
+
 
 @code {
 	string responseResult = "Click the button above";
