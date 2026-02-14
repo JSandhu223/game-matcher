@@ -19,9 +19,9 @@
 </div> *@
 
 <div>
-	<input @bind="lookupID" placeholder="Enter steam ID" />
-	<button @onclick="GetSteamUser">Load Player</button>
-	<button @onclick="GetFriends">Load Friend List</button>
+	<input @bind="lookupID" id="steam-lookup" placeholder="Enter steam ID" />
+	<button @onclick="GetSteamUser">Search User</button>
+	@* <button @onclick="GetFriends">Load Friend List</button> *@
 </div>
 
 <p>lookupID = @lookupID</p>
@@ -80,9 +80,10 @@
 	private async Task GetSteamUser(MouseEventArgs args)
 	{
 		player = await SteamService.GetPlayerSummaryAsync(lookupID);
+		await GetFriends();
 	}
 
-	private async Task GetFriends(MouseEventArgs args)
+	private async Task GetFriends()
 	{
 		friendsList = await SteamService.GetFriendListAsync(lookupID) ?? new();
 	}
