@@ -35,12 +35,12 @@
 
 <h3>Friends Result</h3>
 <table>
-	@foreach (Friend friend in friendsList)
+	@foreach (PlayerSummary p in friendSummaries)
 	{
 		<tr>
-			<td>Friend Steam ID: @friend.SteamId</td>
-			<td>Relationship: @friend.Relationship</td>
-			<td>Friend Since: @friend.FriendSince</td>
+			<td>Friend Name: @p.PersonaName</td>
+			<td>Status: @p.PersonaState</td>
+			<td><img src="@p.AvatarFull" /></td>
 		</tr>
 	}
 </table>
@@ -52,10 +52,11 @@
 
 	PlayerSummary? player;
 
+	// This list contains the friend's steam ID, relationship, and Unix timestamp of when they became friends with the user
 	List<Friend> friendsList = new();
 
-	// This list holds the player symmaries of the friends in the user's friend list. It is used to display the friend's name and avatar in the UI.
-	List<Friend> friendSummaries = new();
+	// This list holds the player symmaries of the friends in the user's friend list. It is used to display the friend's name and avatar in the UI
+	List<PlayerSummary> friendSummaries = new();
 
 	private async Task GetPlaceholderJSON(MouseEventArgs args)
 	{
@@ -92,14 +93,26 @@
 	private async Task GetFriends()
 	{
 		friendsList = await SteamService.GetFriendListAsync(lookupID) ?? new();
-		// foreach (Friend friend in friendsList)
-		// {
-		// 	await GetFriendSummary(friend.SteamId);
-		// }
-	}
 
-	private async Task GetFriendSummary(string steamID)
-	{
-		// await SteamService.GetPlayerSummaryAsync(steamID);
+		// Holds the steam IDs of the friends in batches
+		// TODO: Implement batch size calculation based on the number of friends in the friend list
+		List<string> friendsBatch = new();
+		int batchSize = 10;
+
+		foreach (Friend friend in friendsList)
+		{
+			if (friendsBatch.Count < batchSize)
+			{
+				friendsBatch.Add(friend.SteamId);
+			}
+
+			else
+			{
+				var summaries = await SteamService.GetFriendSummariesAsync(friendsBatch);
+				friendSummaries = summaries ?? new();
+				friendsBatch.RemoveRange(0, friendsBatch.Count);
+				break;
+			}
+		}
 	}
 }
