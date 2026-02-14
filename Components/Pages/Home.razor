@@ -19,7 +19,7 @@
 </div> *@
 
 <div>
-	<input @bind="lookupID" placeholder="Enter your steam ID" />
+	<input @bind="lookupID" placeholder="Enter steam ID" />
 	<button @onclick="GetSteamUser">Load Player</button>
 	<button @onclick="GetFriends">Load Friend List</button>
 </div>
@@ -31,13 +31,6 @@
 	<p>Name: @player.PersonaName</p>
 	<img src="@player.AvatarFull" />
 }
-
-<table>
-	<tr>
-		<td>Oil</td>
-		<td>Oh yo</td>
-	</tr>
-</table>
 
 <h3>Friends Result</h3>
 <table>
@@ -51,11 +44,10 @@
 	}
 </table>
 
-
 @code {
 	string responseResult = "Click the button above";
 
-	string lookupID = string.Empty;
+	string lookupID = "76561198063946970";
 
 	PlayerSummary? player;
 
@@ -87,11 +79,11 @@
 
 	private async Task GetSteamUser(MouseEventArgs args)
 	{
-		player = await SteamService.GetPlayerSummaryAsync("76561198063946970");
+		player = await SteamService.GetPlayerSummaryAsync(lookupID);
 	}
 
 	private async Task GetFriends(MouseEventArgs args)
 	{
-		friendsList = await SteamService.GetFriendListAsync("76561198063946970") ?? new();
+		friendsList = await SteamService.GetFriendListAsync(lookupID) ?? new();
 	}
 }
