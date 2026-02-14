@@ -32,16 +32,19 @@
 	<img src="@player.AvatarFull" />
 }
 
-@if (friend != null)
+<h3>Friends Result</h3>
+@if (friendsList.Count != 0)
 {
-	<h3>First Steam Friend Result</h3>
-	<p>Friend Steam ID: @friend.SteamId</p>
-	<p>Relationship: @friend.Relationship</p>
-	<p>Friend Since: @friend.FriendSince</p>
+	foreach (Friend friend in friendsList)
+	{
+		<p>Friend Steam ID: @friend.SteamId</p>
+		<p>Relationship: @friend.Relationship</p>
+		<p>Friend Since: @friend.FriendSince</p>
+	}
 }
 else
 {
-	<p>Friend is null</p>
+	<p>friendsList is empty!</p>
 }
 
 @code {
@@ -51,7 +54,7 @@ else
 
 	PlayerSummary? player;
 
-	Friend? friend;
+	List<Friend> friendsList = new();
 
 	private async Task GetPlaceholderJSON(MouseEventArgs args)
 	{
@@ -84,6 +87,6 @@ else
 
 	private async Task GetFriends(MouseEventArgs args)
 	{
-		friend = await SteamService.GetFriendListAsync("76561198063946970");
+		friendsList = await SteamService.GetFriendListAsync("76561198063946970") ?? new();
 	}
 }

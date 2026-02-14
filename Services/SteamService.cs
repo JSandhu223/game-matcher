@@ -25,7 +25,7 @@ public class SteamService
         return response?.Response.Players.FirstOrDefault();
     }
 
-    public async Task<Friend?> GetFriendListAsync(string steamId)
+    public async Task<List<Friend>?> GetFriendListAsync(string steamId)
     {
         var url = $"https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key={_apiKey}&steamid={steamId}&relationship=friend";
 
@@ -38,6 +38,6 @@ public class SteamService
         //var json = await _httpClient.GetFromJsonAsync<JsonDocument>(url);
         //Console.WriteLine(json.RootElement.ToString());
 
-        return response?.Response.Friends.FirstOrDefault();
+        return response?.Response.Friends;
     }
 }
