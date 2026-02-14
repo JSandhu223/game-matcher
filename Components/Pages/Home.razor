@@ -29,6 +29,7 @@
 @if (player != null)
 {
 	<p>Name: @player.PersonaName</p>
+	<p>Status: @player.PersonaState</p>
 	<img src="@player.AvatarFull" />
 }
 
@@ -52,6 +53,9 @@
 	PlayerSummary? player;
 
 	List<Friend> friendsList = new();
+
+	// This list holds the player symmaries of the friends in the user's friend list. It is used to display the friend's name and avatar in the UI.
+	List<Friend> friendSummaries = new();
 
 	private async Task GetPlaceholderJSON(MouseEventArgs args)
 	{
@@ -77,14 +81,25 @@
 		}
 	}
 
+	// Returns the player summary of the user ID supplied in the input field
 	private async Task GetSteamUser(MouseEventArgs args)
 	{
 		player = await SteamService.GetPlayerSummaryAsync(lookupID);
 		await GetFriends();
 	}
 
+	// Returns the friend list of the user ID supplied in the input field
 	private async Task GetFriends()
 	{
 		friendsList = await SteamService.GetFriendListAsync(lookupID) ?? new();
+		// foreach (Friend friend in friendsList)
+		// {
+		// 	await GetFriendSummary(friend.SteamId);
+		// }
+	}
+
+	private async Task GetFriendSummary(string steamID)
+	{
+		// await SteamService.GetPlayerSummaryAsync(steamID);
 	}
 }

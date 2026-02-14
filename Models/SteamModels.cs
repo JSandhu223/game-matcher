@@ -22,6 +22,9 @@ public class PlayerSummary
 
     [JsonPropertyName("avatarfull")]
     public string AvatarFull { get; set; } = "";
+
+    [JsonPropertyName("personastate")]
+    public int PersonaState { get; set; }
 }
 
 
