@@ -21,7 +21,10 @@
 <div>
 	<input @bind="lookupID" placeholder="Enter your steam ID" />
 	<button @onclick="GetSteamUser">Load Player</button>
+	<button @onclick="GetFriends">Load Friend List</button>
 </div>
+
+<p>lookupID = @lookupID</p>
 
 @if (player != null)
 {
@@ -29,14 +32,26 @@
 	<img src="@player.AvatarFull" />
 }
 
+@if (friend != null)
+{
+	<h3>First Steam Friend Result</h3>
+	<p>Friend Steam ID: @friend.SteamId</p>
+	<p>Relationship: @friend.Relationship</p>
+	<p>Friend Since: @friend.FriendSince</p>
+}
+else
+{
+	<p>Friend is null</p>
+}
+
 @code {
 	string responseResult = "Click the button above";
 
-	string steamResponseResult = "Click the button above to get a steam user's info";
+	string lookupID = string.Empty;
 
 	PlayerSummary? player;
 
-	string lookupID = string.Empty;
+	Friend? friend;
 
 	private async Task GetPlaceholderJSON(MouseEventArgs args)
 	{
@@ -64,6 +79,11 @@
 
 	private async Task GetSteamUser(MouseEventArgs args)
 	{
-		player = await SteamService.GetPlayerSummaryAsync(lookupID);
+		player = await SteamService.GetPlayerSummaryAsync("76561198063946970");
+	}
+
+	private async Task GetFriends(MouseEventArgs args)
+	{
+		friend = await SteamService.GetFriendListAsync("76561198063946970");
 	}
 }
