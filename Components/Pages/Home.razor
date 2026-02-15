@@ -18,8 +18,6 @@
 	<p>@responseResult</p>
 </div> *@
 
-<h3>HTTP Call Counter: @httpCallCount</h3>
-
 <div>
 	<input @bind="lookupID" id="steam-lookup" placeholder="Enter steam ID" />
 	<button type="button" @onclick="GetSteamUser">Search User</button>
@@ -41,7 +39,7 @@
 	@for (int i = 0; i < friendSummaries.Count; i++)
 	{
 		<tr>
-			<td>#@i</td>
+			<td>#@(i+1)</td>
 			<td>Friend Name: @friendSummaries[i].PersonaName</td>
 			<td>Status: @friendSummaries[i].PersonaState</td>
 			<td><img src="@friendSummaries[i].AvatarMedium" /></td>
@@ -50,8 +48,6 @@
 </table>
 
 @code {
-	int httpCallCount = 0;
-
 	string responseResult = "Click the button above";
 
 	string lookupID = "76561198063946970";
@@ -91,7 +87,9 @@
 	// Returns the player summary of the user ID supplied in the input field
 	private async Task GetSteamUser(MouseEventArgs args)
 	{
-		httpCallCount++;
+		player = new();
+		friendsList = new();
+		friendSummaries = new();
 
 		player = await SteamService.GetPlayerSummaryAsync(lookupID);
 		await GetFriends();
@@ -120,7 +118,6 @@
 				var summaries = await SteamService.GetFriendSummariesAsync(friendsBatch);
 				friendSummaries.AddRange(summaries ?? new());
 				friendsBatch.RemoveRange(0, friendsBatch.Count);
-				// break;
 			}
 		}
 	}

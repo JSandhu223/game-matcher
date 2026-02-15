@@ -43,19 +43,6 @@ public class SteamService
     // Used to get friend summaries in batches, since the GetPlayerSummaries API endpoint has a limit of 100 Steam IDs per request.
     public async Task<List<PlayerSummary>?> GetFriendSummariesAsync(List<string> steamIds)
     {
-        //StringBuilder ids = new StringBuilder();
-        //for (int i = 0; i < steamIds.Count; i++)
-        //{
-        //    if (i == steamIds.Count - 1)
-        //    {
-        //        ids.Append(steamIds[i]);
-        //    }
-        //    else
-        //    {
-        //        ids.Append($"{steamIds[i]},");
-        //    }
-        //}
-
         // Join all the Steam IDs into a single comma-separated string, which is the format required by the GetPlayerSummaries API endpoint.
         string ids = string.Join(",", steamIds);
 
