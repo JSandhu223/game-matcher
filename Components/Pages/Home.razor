@@ -29,7 +29,7 @@
 @if (player != null)
 {
 	<p>Name: @player.PersonaName</p>
-	<p>Status: @player.PersonaState</p>
+	<p>Status: @status[player.PersonaState]</p>
 	<img src="@player.AvatarFull" />
 }
 
@@ -41,7 +41,7 @@
 		<tr>
 			<td>#@(i+1)</td>
 			<td>Friend Name: @friendSummaries[i].PersonaName</td>
-			<td>Status: @friendSummaries[i].PersonaState</td>
+			<td>Status: @status[friendSummaries[i].PersonaState]</td>
 			<td><img src="@friendSummaries[i].AvatarMedium" /></td>
 		</tr>
 	}
@@ -52,12 +52,23 @@
 
 	string lookupID = "76561198063946970";
 
+	Dictionary<int, string> status = new Dictionary<int, string>()
+	{
+		{ 0, "Offline" },
+		{ 1, "Online" },
+		{ 2, "Busy" },
+		{ 3, "Away" },
+		{ 4, "Snooze" },
+		{ 5, "Looking to trade" },
+		{ 6, "Looking to play" }
+	};
+
 	PlayerSummary? player;
 
 	// This list contains the friend's steam ID, relationship, and Unix timestamp of when they became friends with the user
 	List<Friend> friendsList = new();
 
-	// This list holds the player symmaries of the friends in the user's friend list. It is used to display the friend's name and avatar in the UI
+	// This list holds the player symmaries of the friends in the user's friend list. It is used to display the friend's name, online status, and avatar in the UI
 	List<PlayerSummary> friendSummaries = new();
 
 	private async Task GetPlaceholderJSON(MouseEventArgs args)
