@@ -18,6 +18,52 @@
 	<p>@responseResult</p>
 </div> *@
 
+
+<div class="container-sm">
+	<div class="row row-cols-md-4 row-cols-2">
+		<div class="col">
+			<div class="card">
+				<img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Placeholder Image" />
+				<div class="card-body">
+					<h2 class="card-title">Name</h2>
+					<h5 class="card-subtitle">Status</h5>
+					<div class="card-text">This is a card</div>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="card">
+				<img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Placeholder Image" />
+				<div class="card-body">
+					<h2 class="card-title">Name</h2>
+					<h5 class="card-subtitle">Status</h5>
+					<div class="card-text">This is a card</div>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="card">
+				<img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Placeholder Image" />
+				<div class="card-body">
+					<h2 class="card-title">Name</h2>
+					<h5 class="card-subtitle">Status</h5>
+					<div class="card-text">This is a card</div>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="card">
+				<img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Placeholder Image" />
+				<div class="card-body">
+					<h2 class="card-title">Name</h2>
+					<h5 class="card-subtitle">Status</h5>
+					<div class="card-text">This is a card</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div>
 	<input @bind="lookupID" id="steam-lookup" placeholder="Enter steam ID" />
 	<button type="button" @onclick="GetSteamUser">Search User</button>
@@ -34,18 +80,39 @@
 }
 
 <h3>Friends Result</h3>
-<table>
-	@* @foreach (PlayerSummary p in friendSummaries) *@
-	@for (int i = 0; i < friendSummaries.Count; i++)
-	{
-		<tr>
-			<td>#@(i+1)</td>
-			<td>Friend Name: @friendSummaries[i].PersonaName</td>
-			<td>Status: @status[friendSummaries[i].PersonaState]</td>
-			<td><img src="@friendSummaries[i].AvatarMedium" /></td>
-		</tr>
-	}
-</table>
+
+<div class="container-sm">
+	<div class="row row-cols-lg-6 row-cols-2">
+		@foreach (PlayerSummary p in friendSummaries)
+		{
+			<div class="col">
+				<div class="card">
+					<img src="@p.AvatarFull" class="card-img-top" alt="Avatar" />
+					<div class="card-body">
+						<h5 class="card-title">@p.PersonaName</h5>
+						<span class="card-subtitle">@status[p.PersonaState]</span>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+@* <div class="container">
+	<table class="table table-dark table-sm">
+		<tbody>
+			@for (int i = 0; i < friendSummaries.Count; i++)
+			{
+				<tr>
+					<td>#@(i+1)</td>
+					<td>@friendSummaries[i].PersonaName</td>
+					<td>@status[friendSummaries[i].PersonaState]</td>
+					<td><img src="@friendSummaries[i].AvatarFull" /></td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div> *@
 
 @code {
 	string responseResult = "Click the button above";
