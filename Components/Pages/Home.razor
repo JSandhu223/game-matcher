@@ -82,7 +82,7 @@
 
 <div class="container">
 	<div class="row row-cols-4">
-		@foreach (OwnedGame game in games)
+		@foreach (OwnedGame game in friendsGames)
 		{
 			<div class="col">
 				@* <p>@game.AppId | @game.Name | @(Math.Round(game.TotalPlaytime / 60.0, 1)) hours | @game.ImageHash </p> *@
@@ -148,8 +148,9 @@
 	// This list holds the player symmaries of the friends in the user's friend list. It is used to display the friend's name, online status, and avatar in the UI
 	List<PlayerSummary> friendSummaries = new();
 
-	// This list holds the games app id and playtime of the game
-	List<OwnedGame> games = new();
+	// These lists holds the games app id and playtime (in minutes)
+	List<OwnedGame> usersGames = new(); // Gets populated in 'GetSteamUser()'
+	List<OwnedGame> friendsGames = new();
 
 	// Returns the player summary of the user ID supplied in the input field
 	private async Task GetSteamUser(MouseEventArgs args)
@@ -164,6 +165,9 @@
 		{
 			return;
 		}
+
+		usersGames = await SteamService.GetOwnedGamesAsync(lookupID) ?? new();
+
 		await GetFriends();
 	}
 
@@ -196,6 +200,7 @@
 
 	private async Task GetOwnedGames(string steamId)
 	{
-		games = await SteamService.GetOwnedGamesAsync(steamId) ?? new();
+		// steamId is the lookupID of the friend that the user wants to compare games with. This steamId is passed from the FriendCard component when the user clicks the 'Compare' button.
+		friendsGames = await SteamService.GetOwnedGamesAsync(steamId) ?? new();
 	}
 }
