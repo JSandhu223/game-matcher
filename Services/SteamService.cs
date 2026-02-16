@@ -63,6 +63,6 @@ public class SteamService
         // The API returns a list of owned games, but since we're querying for a single Steam ID, we will take the first one.
         // GetFromJSONAsync will automatically deserialize the JSON response into our OwnedGamesResponse model.
         var response = await _httpClient.GetFromJsonAsync<OwnedGamesResponse>(url);
-        return response?.Response.Games;
+        return response?.Response.Games.OrderByDescending(item => item.TotalPlaytime).ToList();
     }
 }
