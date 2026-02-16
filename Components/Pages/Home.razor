@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using GameMatcher.Components.Reusable
 @rendermode InteractiveServer
 @inject IHttpClientFactory ClientFactory
 @inject IConfiguration Configuration
@@ -86,13 +87,7 @@
 		@foreach (PlayerSummary p in friendSummaries)
 		{
 			<div class="col">
-				<div class="card">
-					<img src="@p.AvatarFull" class="card-img-top" alt="Avatar" />
-					<div class="card-body">
-						<h5 class="card-title">@p.PersonaName</h5>
-						<span class="card-subtitle">@status[p.PersonaState]</span>
-					</div>
-				</div>
+				<FriendCard AvatarSource="@p.AvatarFull" Name="@p.PersonaName" Status="@status[p.PersonaState]"></FriendCard>
 			</div>
 		}
 	</div>

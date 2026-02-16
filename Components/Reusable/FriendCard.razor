@@ -1,0 +1,18 @@
+﻿<div class="card">
+	<img src="@AvatarSource" class="card-img-top" alt="Avatar" />
+	<div class="card-body">
+		<h5 class="card-title">@Name</h5>
+		<span class="card-subtitle">@Status</span>
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public string AvatarSource { get; set; } = string.Empty;
+
+	[Parameter]
+	public string Name { get; set; } = string.Empty;
+
+	[Parameter]
+	public string Status { get; set; } = string.Empty;
+}
