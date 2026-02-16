@@ -1,0 +1,16 @@
+﻿<div class="col">
+	@* <p>@game.AppId | @game.Name | @(Math.Round(game.TotalPlaytime / 60.0, 1)) hours | @game.ImageHash </p> *@
+	<img src="@($"https://media.steampowered.com/steamcommunity/public/images/apps/{@AppId}/{ImageHash}.jpg")" />
+	<p>@Name</p>
+</div>
+
+@code {
+	[Parameter]
+	public int AppId { get; set; }
+
+	[Parameter]
+	public string Name { get; set; } = string.Empty;
+
+	[Parameter]
+	public string ImageHash { get; set; } = string.Empty;
+}

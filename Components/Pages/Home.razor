@@ -84,11 +84,11 @@
 	<div class="row row-cols-4">
 		@foreach (OwnedGame game in commonGames)
 		{
-			<div class="col">
-				@* <p>@game.AppId | @game.Name | @(Math.Round(game.TotalPlaytime / 60.0, 1)) hours | @game.ImageHash </p> *@
+			@* <div class="col">
 				<img src="@($"https://media.steampowered.com/steamcommunity/public/images/apps/{@game.AppId}/{game.ImageHash}.jpg")" />
 				<p>@game.Name</p>
-			</div>
+			</div> *@
+			<GameSlot AppId="@game.AppId" Name="@game.Name" ImageHash="@game.ImageHash"></GameSlot>
 		}
 	</div>
 </div>
