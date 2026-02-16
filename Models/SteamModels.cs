@@ -33,7 +33,6 @@ public class PlayerSummary
     public int PersonaState { get; set; }
 }
 
-
 public class FriendListResponse
 {
     [JsonPropertyName("friendslist")]

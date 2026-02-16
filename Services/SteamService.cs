@@ -15,8 +15,7 @@ public class SteamService
 
     public async Task<PlayerSummary?> GetPlayerSummaryAsync(string steamId)
     {
-        var url = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/" +
-                  $"?key={_apiKey}&steamids={steamId}";
+        var url = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={_apiKey}&steamids={steamId}";
 
         // The API returns a list of players, but since we're querying for a single Steam ID, we will take the first one.
         // GetFromJSONAsync will automatically deserialize the JSON response into our PlayerSummaryResponse model.
@@ -46,8 +45,7 @@ public class SteamService
         // Join all the Steam IDs into a single comma-separated string, which is the format required by the GetPlayerSummaries API endpoint.
         string ids = string.Join(",", steamIds);
 
-        var url = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/" +
-                  $"?key={_apiKey}&steamids={ids}";
+        var url = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={_apiKey}&steamids={ids}";
         // The API returns a list of players, but since we're querying for a single Steam ID, we will take the first one.
         // GetFromJSONAsync will automatically deserialize the JSON response into our PlayerSummaryResponse model.
         var response = await _httpClient.GetFromJsonAsync<PlayerSummaryResponse>(url);

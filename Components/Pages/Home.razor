@@ -62,6 +62,7 @@
 </div> *@
 
 <div class="container">
+	<p>Lookup ID = @lookupID</p>
 	<input @bind="lookupID" id="steam-lookup" placeholder="Enter steam ID" />
 	<button type="button" @onclick="GetSteamUser">Search User</button>
 	@* <button @onclick="GetFriends">Load Friend List</button> *@
@@ -80,7 +81,7 @@
 
 <div class="container">
 	<div class="row row-cols-4">
-		@foreach (OwnedGame game in Games)
+		@foreach (OwnedGame game in games)
 		{
 			<div class="col">
 				@* <p>@game.AppId | @game.Name | @(Math.Round(game.TotalPlaytime / 60.0, 1)) hours | @game.ImageHash </p> *@
@@ -145,7 +146,7 @@
 	List<PlayerSummary> friendSummaries = new();
 
 	// This list holds the games app id and playtime of the game
-	List<OwnedGame> Games = new();
+	List<OwnedGame> games = new();
 
 	// Returns the player summary of the user ID supplied in the input field
 	private async Task GetSteamUser(MouseEventArgs args)
@@ -154,7 +155,12 @@
 		friendsList = new();
 		friendSummaries = new();
 
-		player = await SteamService.GetPlayerSummaryAsync(lookupID);
+		// Note: the API endpoint call stills succeeds if the 'steamid' parameter is empty, but it just returns an empty response.
+		player = lookupID != null ? await SteamService.GetPlayerSummaryAsync(lookupID) : null;
+		if (player == null)
+		{
+			return;
+		}
 		await GetFriends();
 	}
 
@@ -187,6 +193,6 @@
 
 	private async Task GetOwnedGames(string steamId)
 	{
-		Games = await SteamService.GetOwnedGamesAsync(steamId) ?? new();
+		games = await SteamService.GetOwnedGamesAsync(steamId) ?? new();
 	}
 }
