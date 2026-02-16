@@ -57,3 +57,30 @@ public class Friend
     [JsonPropertyName("friend_since")]
     public long FriendSince { get; set; }
 }
+
+public class OwnedGamesResponse
+{
+    [JsonPropertyName("response")]
+    public OwnedGamesContainer Response { get; set; } = new();
+}
+
+public class OwnedGamesContainer
+{
+    [JsonPropertyName("games")]
+    public List<OwnedGame> Games { get; set; } = new();
+}
+
+public class OwnedGame
+{
+    [JsonPropertyName("appid")]
+    public int AppId { get; set; }
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = "";
+
+    [JsonPropertyName("playtime_forever")]
+    public double TotalPlaytime { get; set; }
+
+    [JsonPropertyName("img_icon_url")]
+    public string ImageHash { get; set; } = "";
+}

@@ -51,6 +51,18 @@ public class SteamService
         // The API returns a list of players, but since we're querying for a single Steam ID, we will take the first one.
         // GetFromJSONAsync will automatically deserialize the JSON response into our PlayerSummaryResponse model.
         var response = await _httpClient.GetFromJsonAsync<PlayerSummaryResponse>(url);
-        return response?.Response.Players;
+
+        // Return the list of friend summaries, ordered alphabetically by their PersonaName. If the response is null, return null.
+        return response?.Response.Players.OrderBy(item => item.PersonaName).ToList();
+    }
+
+    public async Task<List<OwnedGame>?> GetOwnedGamesAsync(string steamId)
+    {
+        var url = $"https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={_apiKey}&steamid={steamId}&include_appinfo=true&include_played_free_games=true";
+
+        // The API returns a list of owned games, but since we're querying for a single Steam ID, we will take the first one.
+        // GetFromJSONAsync will automatically deserialize the JSON response into our OwnedGamesResponse model.
+        var response = await _httpClient.GetFromJsonAsync<OwnedGamesResponse>(url);
+        return response?.Response.Games;
     }
 }

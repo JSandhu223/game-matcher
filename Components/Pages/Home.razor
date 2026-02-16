@@ -16,12 +16,6 @@
 
 @* <Counter IncrementAmount="10" /> *@
 
-@* <div>
-	<button @onclick="GetPlaceholderJSON">Get Placeholder JSON</button>
-	<p>@responseResult</p>
-</div> *@
-
-
 @* <div class="container-sm">
 	<div class="row row-cols-md-4 row-cols-2">
 		<div class="col">
@@ -84,13 +78,20 @@
 
 <hr />
 
+<div class="container">
+	@foreach (OwnedGame game in Games)
+	{
+		<p>@game.AppId | @game.Name | @(Math.Round(game.TotalPlaytime / 60.0, 1)) hours | @game.ImageHash </p>
+	}
+</div>
+
 <div class="container-sm">
 	<h3>Friends</h3>
 	<div class="row row-cols-lg-6 row-cols-4 g-4">
 		@foreach (PlayerSummary p in friendSummaries)
 		{
 			<div class="col">
-				<FriendCard AvatarSource="@p.AvatarFull" Name="@p.PersonaName" Status="@status[p.PersonaState]" ProfileUrl="@p.ProfileUrl"></FriendCard>
+				<FriendCard AvatarSource="@p.AvatarFull" Name="@p.PersonaName" Status="@status[p.PersonaState]" ProfileUrl="@p.ProfileUrl" SteamId="@p.SteamId" OnCompareCallback="GetOwnedGames"></FriendCard>
 			</div>
 		}
 	</div>
@@ -136,29 +137,8 @@
 	// This list holds the player symmaries of the friends in the user's friend list. It is used to display the friend's name, online status, and avatar in the UI
 	List<PlayerSummary> friendSummaries = new();
 
-	private async Task GetPlaceholderJSON(MouseEventArgs args)
-	{
-		// The HTTP GET request we will send to the API endpoint
-		using var request = new HttpRequestMessage(HttpMethod.Get,
-			"https://jsonplaceholder.typicode.com/todos/1");
-
-		// The client is used for sending HTTP requests and receiving HTTP responses from a resource identified by a URI
-		var client = ClientFactory.CreateClient();
-
-		// Send the HTTP request and get the response
-		using var response = await client.SendAsync(request);
-
-		if (response.IsSuccessStatusCode)
-		{
-			var responseStream = await response.Content.ReadAsStringAsync();
-			responseResult = responseStream;
-
-		}
-		else
-		{
-			responseResult = $"Request failed with status code: {response.StatusCode.ToString()}";
-		}
-	}
+	// This list holds the games app id and playtime of the game
+	List<OwnedGame> Games = new();
 
 	// Returns the player summary of the user ID supplied in the input field
 	private async Task GetSteamUser(MouseEventArgs args)
@@ -196,5 +176,10 @@
 				friendsBatch.RemoveRange(0, friendsBatch.Count);
 			}
 		}
+	}
+
+	private async Task GetOwnedGames(string steamId)
+	{
+		Games = await SteamService.GetOwnedGamesAsync(steamId) ?? new();
 	}
 }
