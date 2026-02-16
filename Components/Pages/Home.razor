@@ -82,13 +82,12 @@
 
 <div class="container">
 	<div class="row row-cols-4">
-		@foreach (OwnedGame game in friendsGames)
+		@foreach (OwnedGame game in commonGames)
 		{
 			<div class="col">
 				@* <p>@game.AppId | @game.Name | @(Math.Round(game.TotalPlaytime / 60.0, 1)) hours | @game.ImageHash </p> *@
 				<img src="@($"https://media.steampowered.com/steamcommunity/public/images/apps/{@game.AppId}/{game.ImageHash}.jpg")" />
 				<p>@game.Name</p>
-				<p>@(Math.Round(game.TotalPlaytime / 60.0, 1)) hours</p>
 			</div>
 		}
 	</div>
@@ -151,6 +150,7 @@
 	// These lists holds the games app id and playtime (in minutes)
 	List<OwnedGame> usersGames = new(); // Gets populated in 'GetSteamUser()'
 	List<OwnedGame> friendsGames = new();
+	List<OwnedGame> commonGames = new();
 
 	// Returns the player summary of the user ID supplied in the input field
 	private async Task GetSteamUser(MouseEventArgs args)
@@ -202,5 +202,15 @@
 	{
 		// steamId is the lookupID of the friend that the user wants to compare games with. This steamId is passed from the FriendCard component when the user clicks the 'Compare' button.
 		friendsGames = await SteamService.GetOwnedGamesAsync(steamId) ?? new();
+
+		GetCommonGames();
+	}
+
+	private void GetCommonGames()
+	{
+		// commonGames = usersGames.Where(game => friendsGames.Any(friendGame => friendGame.AppId == game.AppId)).ToList();
+		commonGames = (from userGame in usersGames
+					   join friendGame in friendsGames on userGame.AppId equals friendGame.AppId
+					   select userGame).OrderBy(item => item.Name).ToList();
 	}
 }
