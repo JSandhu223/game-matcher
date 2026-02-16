@@ -1,0 +1,19 @@
+﻿<div class="container">
+	<img src="@AvatarSource" alt="Avatar" />
+	<h3>@Name</h3>
+	<h3>@Status</h3>
+</div>
+
+@code {
+	[Parameter]
+	public string AvatarSource { get; set; } = string.Empty;
+
+	[Parameter]
+	public string Name { get; set; } = string.Empty;
+
+	[Parameter]
+	public string Status { get; set; } = string.Empty;
+
+	[Parameter]
+	public string ProfileUrl { get; set; } = string.Empty;
+}

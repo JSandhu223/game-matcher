@@ -73,15 +73,14 @@
 	@* <button @onclick="GetFriends">Load Friend List</button> *@
 </div>
 
-<div class="container">
-	@if (player != null)
 
-	{
-		<p>Name: @player.PersonaName</p>
-		<p>Status: @status[player.PersonaState]</p>
-		<img src="@player.AvatarFull" />
-	}
-</div>
+@if (player != null)
+{
+	@* <p>Name: @player.PersonaName</p>
+	<p>Status: @status[player.PersonaState]</p>
+	<img src="@player.AvatarFull" /> *@
+	<UserInfo AvatarSource="@player.AvatarFull" Name="@player.PersonaName" Status="@status[player.PersonaState]" ProfileUrl="@player.ProfileUrl"></UserInfo>
+}
 
 <hr />
 
