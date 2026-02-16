@@ -1,8 +1,12 @@
-﻿<div class="card">
-	<img src="@AvatarSource" class="card-img-top" alt="Avatar" />
+﻿<div class="card h-100">
+	<img class="card-img-top" src="@AvatarSource" alt="Avatar" />
 	<div class="card-body">
 		<h5 class="card-title">@Name</h5>
 		<span class="card-subtitle">@Status</span>
+	</div>
+	<div class="card-footer">
+		<button class="btn btn-primary">Compare</button>
+		<a class="btn btn-primary" href="@ProfileUrl" target="_blank" rel="noopener noreferrer">View Profile</a>
 	</div>
 </div>
 
@@ -15,4 +19,7 @@
 
 	[Parameter]
 	public string Status { get; set; } = string.Empty;
+
+	[Parameter]
+	public string ProfileUrl { get; set; } = string.Empty;
 }

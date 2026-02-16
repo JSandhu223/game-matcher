@@ -20,6 +20,9 @@ public class PlayerSummary
     [JsonPropertyName("personaname")]
     public string PersonaName { get; set; } = "";
 
+    [JsonPropertyName("profileurl")]
+    public string ProfileUrl { get; set; } = "";
+
     [JsonPropertyName("avatarmedium")]
     public string AvatarMedium { get; set; } = "";
 
