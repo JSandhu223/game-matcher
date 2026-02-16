@@ -81,6 +81,7 @@ public class OwnedGame
     [JsonPropertyName("playtime_forever")]
     public double TotalPlaytime { get; set; }
 
+    // The API returns the image hash, which can be used to construct the URL for the game's icon. The URL format is: http://media.steampowered.com/steamcommunity/public/images/apps/{appid}/{img_icon_url}.jpg
     [JsonPropertyName("img_icon_url")]
     public string ImageHash { get; set; } = "";
 }
