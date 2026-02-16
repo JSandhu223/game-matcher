@@ -64,9 +64,10 @@
 
 <div class="container">
 	<p>Lookup ID = @lookupID</p>
-	<input @bind="lookupID" id="steam-lookup" placeholder="Enter steam ID" />
-	<button type="button" @onclick="GetSteamUser">Search User</button>
-	@* <button @onclick="GetFriends">Load Friend List</button> *@
+	<div class="input-group input-group-lg">
+		<input class="form-control" @bind="lookupID" id="steam-lookup" placeholder="Enter steam ID" />
+		<button class="btn btn-primary" type="button" @onclick="GetSteamUser">Search User</button>
+	</div>
 </div>
 
 
