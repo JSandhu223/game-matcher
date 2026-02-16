@@ -15,53 +15,6 @@
 	<p>Find games that you share in common with your Steam friends!</p>
 </div>
 
-@* <Counter IncrementAmount="10" /> *@
-
-@* <div class="container-sm">
-	<div class="row row-cols-md-4 row-cols-2">
-		<div class="col">
-			<div class="card">
-				<img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Placeholder Image" />
-				<div class="card-body">
-					<h2 class="card-title">Name</h2>
-					<h5 class="card-subtitle">Status</h5>
-					<div class="card-text">This is a card</div>
-				</div>
-			</div>
-		</div>
-		<div class="col">
-			<div class="card">
-				<img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Placeholder Image" />
-				<div class="card-body">
-					<h2 class="card-title">Name</h2>
-					<h5 class="card-subtitle">Status</h5>
-					<div class="card-text">This is a card</div>
-				</div>
-			</div>
-		</div>
-		<div class="col">
-			<div class="card">
-				<img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Placeholder Image" />
-				<div class="card-body">
-					<h2 class="card-title">Name</h2>
-					<h5 class="card-subtitle">Status</h5>
-					<div class="card-text">This is a card</div>
-				</div>
-			</div>
-		</div>
-		<div class="col">
-			<div class="card">
-				<img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Placeholder Image" />
-				<div class="card-body">
-					<h2 class="card-title">Name</h2>
-					<h5 class="card-subtitle">Status</h5>
-					<div class="card-text">This is a card</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div> *@
-
 <div class="container">
 	<p>Lookup ID = @lookupID</p>
 	<div class="input-group input-group-lg">
@@ -70,57 +23,36 @@
 	</div>
 </div>
 
+<hr />
 
 @if (player != null)
 {
-	@* <p>Name: @player.PersonaName</p>
-	<p>Status: @status[player.PersonaState]</p>
-	<img src="@player.AvatarFull" /> *@
 	<UserInfo AvatarSource="@player.AvatarFull" Name="@player.PersonaName" Status="@status[player.PersonaState]" ProfileUrl="@player.ProfileUrl"></UserInfo>
 }
-
-<hr />
 
 <div class="container">
 	<div class="row row-cols-4">
 		@foreach (OwnedGame game in commonGames)
 		{
-			@* <div class="col">
-				<img src="@($"https://media.steampowered.com/steamcommunity/public/images/apps/{@game.AppId}/{game.ImageHash}.jpg")" />
-				<p>@game.Name</p>
-			</div> *@
 			<GameSlot AppId="@game.AppId" Name="@game.Name" ImageHash="@game.ImageHash"></GameSlot>
 		}
 	</div>
 </div>
 
-<div class="container-sm">
-	<h3>Friends</h3>
-	<div class="row row-cols-lg-6 row-cols-4 g-4">
-		@foreach (PlayerSummary p in friendSummaries)
-		{
-			<div class="col">
-				<FriendCard AvatarSource="@p.AvatarFull" Name="@p.PersonaName" Status="@status[p.PersonaState]" ProfileUrl="@p.ProfileUrl" SteamId="@p.SteamId" OnCompareCallback="GetFriendsOwnedGames"></FriendCard>
-			</div>
-		}
-	</div>
-</div>
-
-@* <div class="container">
-	<table class="table table-dark table-sm">
-		<tbody>
-			@for (int i = 0; i < friendSummaries.Count; i++)
+@if (friendSummaries.Count > 0)
+{
+	<div class="container-sm" style="background-color: rgb(20, 23, 26);">
+		<h3>Friends</h3>
+		<div class="row row-cols-lg-4 row-cols-2 g-4">
+			@foreach (PlayerSummary p in friendSummaries)
 			{
-				<tr>
-					<td>#@(i+1)</td>
-					<td>@friendSummaries[i].PersonaName</td>
-					<td>@status[friendSummaries[i].PersonaState]</td>
-					<td><img src="@friendSummaries[i].AvatarFull" /></td>
-				</tr>
+				<div class="col">
+					<FriendCard AvatarSource="@p.AvatarFull" Name="@p.PersonaName" Status="@status[p.PersonaState]" ProfileUrl="@p.ProfileUrl" SteamId="@p.SteamId" OnCompareCallback="GetFriendsOwnedGames"></FriendCard>
+				</div>
 			}
-		</tbody>
-	</table>
-</div> *@
+		</div>
+	</div>
+}
 
 @code {
 	string responseResult = "Click the button above";

@@ -1,5 +1,25 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: rgb(27, 31, 34);
+    /*    background-color: var(--gradient-background);
+    --gradient-right: rgba(70, 106, 128, 0.233);
+    --gradient-left: rgba(86, 120, 134, 0.37);
+    --gradient-background: rgba(41, 46, 51, 0.93);
+    --gradient-background-right: rgba(17, 24, 29, 0);
+    --gradient-background-left: rgba(19, 27, 31, 0);
+    --color-showcase-header: rgba(55, 62, 76, 0.93);
+    --gradient-showcase-header-left: rgba(68, 83, 93, 0.93);
+    --btn-background: rgb(66, 76, 92);
+    --btn-background-hover: rgb(76, 86, 102);
+    --btn-outline: rgb(106, 126, 142);*/
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: white;
+}
+
+p {
+    color: white;
 }
 
 a, .btn-link {
