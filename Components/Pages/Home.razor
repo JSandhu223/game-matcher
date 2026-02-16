@@ -99,7 +99,7 @@
 		@foreach (PlayerSummary p in friendSummaries)
 		{
 			<div class="col">
-				<FriendCard AvatarSource="@p.AvatarFull" Name="@p.PersonaName" Status="@status[p.PersonaState]" ProfileUrl="@p.ProfileUrl" SteamId="@p.SteamId" OnCompareCallback="GetOwnedGames"></FriendCard>
+				<FriendCard AvatarSource="@p.AvatarFull" Name="@p.PersonaName" Status="@status[p.PersonaState]" ProfileUrl="@p.ProfileUrl" SteamId="@p.SteamId" OnCompareCallback="GetFriendsOwnedGames"></FriendCard>
 			</div>
 		}
 	</div>
@@ -198,7 +198,7 @@
 		}
 	}
 
-	private async Task GetOwnedGames(string steamId)
+	private async Task GetFriendsOwnedGames(string steamId)
 	{
 		// steamId is the lookupID of the friend that the user wants to compare games with. This steamId is passed from the FriendCard component when the user clicks the 'Compare' button.
 		friendsGames = await SteamService.GetOwnedGamesAsync(steamId) ?? new();
