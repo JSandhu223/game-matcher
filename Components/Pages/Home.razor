@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using GameMatcher.Components.Reusable
+@using System.Text.RegularExpressions
 @rendermode InteractiveServer
 @inject IHttpClientFactory ClientFactory
 @inject IConfiguration Configuration
@@ -126,6 +127,8 @@
 
 	string lookupID = "76561198063946970";
 
+	string idPattern = @"^\d{17}";
+
 	Dictionary<int, string> status = new Dictionary<int, string>()
 	{
 		{ 0, "Offline" },
@@ -156,7 +159,7 @@
 		friendSummaries = new();
 
 		// Note: the API endpoint call stills succeeds if the 'steamid' parameter is empty, but it just returns an empty response.
-		player = lookupID != null ? await SteamService.GetPlayerSummaryAsync(lookupID) : null;
+		player = Regex.IsMatch(lookupID, idPattern) ? await SteamService.GetPlayerSummaryAsync(lookupID) : null;
 		if (player == null)
 		{
 			return;
