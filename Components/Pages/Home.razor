@@ -8,9 +8,11 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Welcome to the Steam Game Matcher</h1>
+<div class="container">
+	<h1>Welcome to the Steam Game Matcher</h1>
 
-<p>Find games that you share in common with your Steam friends!</p>
+	<p>Find games that you share in common with your Steam friends!</p>
+</div>
 
 @* <Counter IncrementAmount="10" /> *@
 
@@ -20,7 +22,7 @@
 </div> *@
 
 
-<div class="container-sm">
+@* <div class="container-sm">
 	<div class="row row-cols-md-4 row-cols-2">
 		<div class="col">
 			<div class="card">
@@ -63,26 +65,28 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> *@
 
-<div>
+<div class="container">
 	<input @bind="lookupID" id="steam-lookup" placeholder="Enter steam ID" />
 	<button type="button" @onclick="GetSteamUser">Search User</button>
 	@* <button @onclick="GetFriends">Load Friend List</button> *@
 </div>
 
-<p>lookupID = @lookupID</p>
+<div class="container">
+	@if (player != null)
 
-@if (player != null)
-{
-	<p>Name: @player.PersonaName</p>
-	<p>Status: @status[player.PersonaState]</p>
-	<img src="@player.AvatarFull" />
-}
+	{
+		<p>Name: @player.PersonaName</p>
+		<p>Status: @status[player.PersonaState]</p>
+		<img src="@player.AvatarFull" />
+	}
+</div>
 
-<h3>Friends Result</h3>
+<hr />
 
 <div class="container-sm">
+	<h3>Friends</h3>
 	<div class="row row-cols-lg-6 row-cols-4 g-4">
 		@foreach (PlayerSummary p in friendSummaries)
 		{
