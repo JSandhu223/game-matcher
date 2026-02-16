@@ -1,7 +1,9 @@
 ﻿<div class="col">
 	@* <p>@game.AppId | @game.Name | @(Math.Round(game.TotalPlaytime / 60.0, 1)) hours | @game.ImageHash </p> *@
-	<img src="@($"https://media.steampowered.com/steamcommunity/public/images/apps/{@AppId}/{ImageHash}.jpg")" />
-	<p>@Name</p>
+	<a href="@($"https://store.steampowered.com/app/{AppId}")" target="_blank" rel="noopener noreferrer">
+		<img src="@($"https://media.steampowered.com/steamcommunity/public/images/apps/{@AppId}/{ImageHash}.jpg")" />
+		<p>@Name</p>
+	</a>
 </div>
 
 @code {
