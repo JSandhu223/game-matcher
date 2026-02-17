@@ -30,9 +30,10 @@
 	<UserInfo AvatarSource="@player.AvatarFull" Name="@player.PersonaName" Status="@status[player.PersonaState]" ProfileUrl="@player.ProfileUrl"></UserInfo>
 }
 
-@if (commonGames.Count > 0)
+@if (showCommonGames)
 {
 	<div class="container" style="background-color: rgb(20, 23, 26);">
+		<button class="btn btn-link" @onclick="@(() => { showFriends = true; showCommonGames = false; })">Back to friends list</button>
 		<h3>Common Games</h3>
 		<div class="row row-cols-4">
 			@foreach (OwnedGame game in commonGames)
@@ -45,7 +46,7 @@
 
 <hr />
 
-@if (friendSummaries.Count > 0)
+@if (showFriends)
 {
 	<div class="container-sm" style="background-color: rgb(20, 23, 26);">
 		<h3>Friends</h3>
@@ -91,6 +92,9 @@
 	List<OwnedGame> friendsGames = new();
 	List<OwnedGame> commonGames = new();
 
+	bool showFriends = false;
+	bool showCommonGames = false;
+
 	// Returns the player summary of the user ID supplied in the input field
 	private async Task GetSteamUser(MouseEventArgs args)
 	{
@@ -116,6 +120,9 @@
 	// Returns the friend list of the user ID supplied in the input field
 	private async Task GetFriends()
 	{
+		showFriends = true;
+		showCommonGames = false;
+
 		friendsList = await SteamService.GetFriendListAsync(lookupID) ?? new();
 
 		// Holds the steam IDs of the friends in batches
@@ -150,7 +157,9 @@
 
 	private void GetCommonGames()
 	{
-		// commonGames = usersGames.Where(game => friendsGames.Any(friendGame => friendGame.AppId == game.AppId)).ToList();
+		showFriends = false;
+		showCommonGames = true;
+
 		commonGames = (from userGame in usersGames
 					   join friendGame in friendsGames on userGame.AppId equals friendGame.AppId
 					   select userGame).OrderBy(item => item.Name).ToList();
