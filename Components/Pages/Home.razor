@@ -16,10 +16,10 @@
 </div>
 
 <div class="container">
-	<p>Lookup ID = @lookupID</p>
+	@* <p>Lookup ID = @lookupID</p> *@
 	<div class="input-group input-group-lg">
 		<input class="form-control" @bind="lookupID" id="steam-lookup" placeholder="Enter steam ID" />
-		<button class="btn btn-primary" type="button" @onclick="GetSteamUser">Search User</button>
+		<button class="btn btn-dark" type="button" @onclick="GetSteamUser">Search User</button>
 	</div>
 </div>
 
@@ -30,14 +30,20 @@
 	<UserInfo AvatarSource="@player.AvatarFull" Name="@player.PersonaName" Status="@status[player.PersonaState]" ProfileUrl="@player.ProfileUrl"></UserInfo>
 }
 
-<div class="container">
-	<div class="row row-cols-4">
-		@foreach (OwnedGame game in commonGames)
-		{
-			<GameSlot AppId="@game.AppId" Name="@game.Name" ImageHash="@game.ImageHash"></GameSlot>
-		}
+@if (commonGames.Count > 0)
+{
+	<div class="container" style="background-color: rgb(20, 23, 26);">
+		<h3>Common Games</h3>
+		<div class="row row-cols-4">
+			@foreach (OwnedGame game in commonGames)
+			{
+				<GameSlot AppId="@game.AppId" Name="@game.Name" ImageHash="@game.ImageHash"></GameSlot>
+			}
+		</div>
 	</div>
-</div>
+}
+
+<hr />
 
 @if (friendSummaries.Count > 0)
 {
@@ -91,6 +97,9 @@
 		player = new();
 		friendsList = new();
 		friendSummaries = new();
+		usersGames = new();
+		friendsGames = new();
+		commonGames = new();
 
 		// Note: the API endpoint call stills succeeds if the 'steamid' parameter is empty, but it just returns an empty response.
 		player = Regex.IsMatch(lookupID, idPattern) ? await SteamService.GetPlayerSummaryAsync(lookupID) : null;
