@@ -11,7 +11,7 @@ game data.
 ## Structure
 
 The project uses a **SteamModel** class for data representation. The API calls are made from
-the **SteamService* class, which handles all interactions with the Steam Web API.
+the **SteamService** class, which handles all interactions with the Steam Web API.
 
 SteamModel:
 - Uses multiple classes for deserializing JSON responses from the Steam Web API. Each class
