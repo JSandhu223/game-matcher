@@ -1,7 +1,167 @@
 ﻿@page "/"
+@using GameMatcher.Components.Reusable
+@using System.Text.RegularExpressions
+@rendermode InteractiveServer
+@inject IHttpClientFactory ClientFactory
+@inject IConfiguration Configuration
+@inject SteamService SteamService
+
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container">
+	<h1>Welcome to the Steam Game Matcher</h1>
 
-Welcome to your new app.
+	<p>Find games that you share in common with your Steam friends!</p>
+</div>
+
+<div class="container">
+	@* <p>Lookup ID = @lookupID</p> *@
+	<div class="input-group input-group-lg">
+		<input class="form-control" @bind="lookupID" id="steam-lookup" placeholder="Enter steam ID" />
+		<button class="btn btn-dark" type="button" @onclick="GetSteamUser">Search User</button>
+	</div>
+</div>
+
+<hr />
+
+@if (player != null)
+{
+	<UserInfo AvatarSource="@player.AvatarFull" Name="@player.PersonaName" Status="@status[player.PersonaState]" ProfileUrl="@player.ProfileUrl"></UserInfo>
+}
+
+@if (showCommonGames)
+{
+	<div class="container" style="background-color: rgb(20, 23, 26);">
+		<button class="btn btn-link" @onclick="@(() => { showFriends = true; showCommonGames = false; })">Back to friends list</button>
+		<h3>Common Games</h3>
+		<div class="row row-cols-4">
+			@foreach (OwnedGame game in commonGames)
+			{
+				<GameSlot AppId="@game.AppId" Name="@game.Name" ImageHash="@game.ImageHash"></GameSlot>
+			}
+		</div>
+	</div>
+}
+
+<hr />
+
+@if (showFriends)
+{
+	<div class="container-sm" style="background-color: rgb(20, 23, 26);">
+		<h3>Friends</h3>
+		<div class="row row-cols-lg-4 row-cols-2 g-4">
+			@foreach (PlayerSummary p in friendSummaries)
+			{
+				<div class="col">
+					<FriendCard AvatarSource="@p.AvatarFull" Name="@p.PersonaName" Status="@status[p.PersonaState]" ProfileUrl="@p.ProfileUrl" SteamId="@p.SteamId" OnCompareCallback="GetFriendsOwnedGames"></FriendCard>
+				</div>
+			}
+		</div>
+	</div>
+}
+
+@code {
+	string responseResult = "Click the button above";
+
+	string lookupID = "76561198063946970";
+
+	string idPattern = @"^\d{17}$";
+
+	Dictionary<int, string> status = new Dictionary<int, string>()
+	{
+		{ 0, "Offline" },
+		{ 1, "Online" },
+		{ 2, "Busy" },
+		{ 3, "Away" },
+		{ 4, "Snooze" },
+		{ 5, "Looking to trade" },
+		{ 6, "Looking to play" }
+	};
+
+	PlayerSummary? player;
+
+	// This list contains the friend's steam ID, relationship, and Unix timestamp of when they became friends with the user
+	List<Friend> friendsList = new();
+
+	// This list holds the player symmaries of the friends in the user's friend list. It is used to display the friend's name, online status, and avatar in the UI
+	List<PlayerSummary> friendSummaries = new();
+
+	// These lists holds the games app id and playtime (in minutes)
+	List<OwnedGame> usersGames = new(); // Gets populated in 'GetSteamUser()'
+	List<OwnedGame> friendsGames = new();
+	List<OwnedGame> commonGames = new();
+
+	bool showFriends = false;
+	bool showCommonGames = false;
+
+	// Returns the player summary of the user ID supplied in the input field
+	private async Task GetSteamUser(MouseEventArgs args)
+	{
+		player = new();
+		friendsList = new();
+		friendSummaries = new();
+		usersGames = new();
+		friendsGames = new();
+		commonGames = new();
+
+		// Note: the API endpoint call stills succeeds if the 'steamid' parameter is empty, but it just returns an empty response.
+		player = Regex.IsMatch(lookupID, idPattern) ? await SteamService.GetPlayerSummaryAsync(lookupID) : null;
+		if (player == null)
+		{
+			return;
+		}
+
+		usersGames = await SteamService.GetOwnedGamesAsync(lookupID) ?? new();
+
+		await GetFriends();
+	}
+
+	// Returns the friend list of the user ID supplied in the input field
+	private async Task GetFriends()
+	{
+		showFriends = true;
+		showCommonGames = false;
+
+		friendsList = await SteamService.GetFriendListAsync(lookupID) ?? new();
+
+		// Holds the steam IDs of the friends in batches
+		// TODO: Implement batch size calculation based on the number of friends in the friend list
+		List<string> friendsBatch = new();
+		int batchSize = 100;
+
+		// foreach (Friend friend in friendsList)
+		for (int i = 0; i < friendsList.Count; i++)
+		{
+			if (friendsBatch.Count < batchSize && i != (friendsList.Count) - 1)
+			{
+				friendsBatch.Add(friendsList[i].SteamId);
+			}
+
+			else
+			{
+				var summaries = await SteamService.GetFriendSummariesAsync(friendsBatch);
+				friendSummaries.AddRange(summaries ?? new());
+				friendsBatch.RemoveRange(0, friendsBatch.Count);
+			}
+		}
+	}
+
+	private async Task GetFriendsOwnedGames(string steamId)
+	{
+		// steamId is the lookupID of the friend that the user wants to compare games with. This steamId is passed from the FriendCard component when the user clicks the 'Compare' button.
+		friendsGames = await SteamService.GetOwnedGamesAsync(steamId) ?? new();
+
+		GetCommonGames();
+	}
+
+	private void GetCommonGames()
+	{
+		showFriends = false;
+		showCommonGames = true;
+
+		commonGames = (from userGame in usersGames
+					   join friendGame in friendsGames on userGame.AppId equals friendGame.AppId
+					   select userGame).OrderBy(item => item.Name).ToList();
+	}
+}

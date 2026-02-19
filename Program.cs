@@ -6,6 +6,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+// Bind secrets.json section to SteamOptions
+builder.Services.Configure<SteamOptions>(
+    builder.Configuration.GetSection("Steam"));
+
+// Allows for calling external web APIs
+builder.Services.AddHttpClient();
+
+// Register the Steam service
+builder.Services.AddScoped<SteamService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
