@@ -48,14 +48,12 @@
 
 @if (showFriends)
 {
-	<div class="container-sm" style="background-color: rgb(20, 23, 26);">
+	<div class="container" style="background-color: #1F232E;">
 		<h3>Friends</h3>
-		<div class="row row-cols-lg-4 row-cols-2 g-4">
+		<div class="d-flex flex-row flex-wrap justify-content-evenly m-auto gap-3">
 			@foreach (PlayerSummary p in friendSummaries)
 			{
-				<div class="col">
-					<FriendCard AvatarSource="@p.AvatarFull" Name="@p.PersonaName" Status="@status[p.PersonaState]" ProfileUrl="@p.ProfileUrl" SteamId="@p.SteamId" OnCompareCallback="GetFriendsOwnedGames"></FriendCard>
-				</div>
+				<FriendCard AvatarSource="@p.AvatarFull" Name="@p.PersonaName" Status="@status[p.PersonaState]" ProfileUrl="@p.ProfileUrl" SteamId="@p.SteamId" OnCompareCallback="GetFriendsOwnedGames"></FriendCard>	
 			}
 		</div>
 	</div>

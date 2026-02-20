@@ -1,10 +1,12 @@
 ﻿@inject SteamService SteamService
 
-<div class="card h-100 border-black border-5" style="background-color: rgb(42, 46, 54);">
-	<img class="card-img-top" src="@AvatarSource" alt="Avatar" />
-	<div class="card-body" style="color: white">
-		<h5 class="card-title">@Name</h5>
+<div class="card" style="background-color: #00365A;">
+	<div class="card-header" style="background-color: black;">
 		<span class="card-subtitle">@Status</span>
+	</div>
+	<img class="card-img-top" src="@AvatarSource" alt="Avatar" />
+	<div class="card-body">
+		<p class="card-title" style="font-weight: bold">@Name</p>
 	</div>
 	<div class="card-footer">
 		<button class="btn btn-dark py-1" type="button" @onclick="OnCompareClick">Compare</button>
