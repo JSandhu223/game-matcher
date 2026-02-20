@@ -9,13 +9,10 @@
 
 <PageTitle>Home</PageTitle>
 
-<div class="container">
+<div class="container p-3" style="background-color: #1F232E; border: solid 1px white;">
 	<h1>Welcome to the Steam Game Matcher</h1>
 
 	<p>Find games that you share in common with your Steam friends!</p>
-</div>
-
-<div class="container">
 	@* <p>Lookup ID = @lookupID</p> *@
 	<div class="input-group input-group-lg">
 		<input class="form-control" @bind="lookupID" id="steam-lookup" placeholder="Enter steam ID" />
@@ -48,7 +45,7 @@
 
 @if (showFriends)
 {
-	<div class="container" style="background-color: #1F232E;">
+	<div class="container pt-3 pb-3" style="background-color: #1F232E; border: solid 1px white;">
 		<h3>Friends</h3>
 		<div class="d-flex flex-row flex-wrap justify-content-evenly m-auto gap-3">
 			@foreach (PlayerSummary p in friendSummaries)

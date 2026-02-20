@@ -4,13 +4,9 @@
     /*    border: solid 1px black;*/
     /*    background: linear-gradient(180deg, #1b2838 0%, #171a21 100%);*/
     background-color: #1F232E;
+    border: solid 1px white;
 }
 
 .avatar-container {
     padding: 10px 10px 10px 10px;
-}
-
-.user-info-container {
-    padding: 10px 0 10px 0;
-    color: white;
 }

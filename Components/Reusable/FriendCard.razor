@@ -1,6 +1,6 @@
 ﻿@inject SteamService SteamService
 
-<div class="card" style="background-color: #00365A;">
+<div class="card" style="background-color: black;">
 	<div class="card-header" style="background-color: black;">
 		<span class="card-subtitle">@Status</span>
 	</div>
@@ -8,7 +8,7 @@
 	<div class="card-body">
 		<p class="card-title" style="font-weight: bold">@Name</p>
 	</div>
-	<div class="card-footer">
+	<div class="card-footer d-flex flex-column flex-wrap gap-2">
 		<button class="btn btn-dark py-1" type="button" @onclick="OnCompareClick">Compare</button>
 		<a class="btn btn-dark" href="@ProfileUrl" target="_blank" rel="noopener noreferrer">View Profile</a>
 	</div>
