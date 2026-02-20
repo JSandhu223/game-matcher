@@ -50,7 +50,7 @@
 		<div class="d-flex flex-row flex-wrap justify-content-evenly m-auto gap-3">
 			@foreach (PlayerSummary p in friendSummaries)
 			{
-				<FriendCard AvatarSource="@p.AvatarFull" Name="@p.PersonaName" Status="@status[p.PersonaState]" Visiblity="@visibility[p.ProfileVisibility]" ProfileUrl="@p.ProfileUrl" SteamId="@p.SteamId" OnCompareCallback="GetFriendsOwnedGames"></FriendCard>	
+				<FriendCard AvatarSource="@p.AvatarFull" Name="@p.PersonaName" Status="@status[p.PersonaState]" Visibility="@visibility[p.ProfileVisibility]" ProfileUrl="@p.ProfileUrl" SteamId="@p.SteamId" OnCompareCallback="GetFriendsOwnedGames"></FriendCard>	
 			}
 		</div>
 	</div>

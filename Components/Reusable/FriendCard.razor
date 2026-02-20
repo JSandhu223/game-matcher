@@ -7,10 +7,10 @@
 	<img class="card-img-top" src="@AvatarSource" alt="Avatar" />
 	<div class="card-body">
 		<p class="card-title" style="font-weight: bold">@Name</p>
-		<p>@Visiblity</p>
+		<p>@Visibility</p>
 	</div>
 	<div class="card-footer d-flex flex-column flex-wrap gap-2">
-		<button class="btn btn-dark py-1" type="button" @onclick="OnCompareClick">Compare</button>
+		<button class="btn btn-dark py-1" type="button" @onclick="OnCompareClick" disabled="@IsPublic">Compare</button>
 		<a class="btn btn-dark" href="@ProfileUrl" target="_blank" rel="noopener noreferrer">View Profile</a>
 	</div>
 </div>
@@ -26,7 +26,7 @@
 	public string Status { get; set; } = string.Empty;
 
 	[Parameter]
-	public string Visiblity { get; set; } = string.Empty;
+	public string Visibility { get; set; } = string.Empty;
 
 	[Parameter]
 	public string ProfileUrl { get; set; } = string.Empty;
@@ -36,6 +36,8 @@
 
 	[Parameter]
 	public EventCallback<string> OnCompareCallback { get; set; }
+
+	bool IsPublic => Visibility == "Private Profile";
 
 	// Calls the parent's method 'GetOwnedGames'
 	private async Task OnCompareClick()
