@@ -31,6 +31,9 @@ public class PlayerSummary
 
     [JsonPropertyName("personastate")]
     public int PersonaState { get; set; }
+
+    [JsonPropertyName("communityvisibilitystate")]
+    public int ProfileVisibility { get; set; }
 }
 
 public class FriendListResponse

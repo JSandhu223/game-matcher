@@ -7,6 +7,7 @@
 	<img class="card-img-top" src="@AvatarSource" alt="Avatar" />
 	<div class="card-body">
 		<p class="card-title" style="font-weight: bold">@Name</p>
+		<p>@Visiblity</p>
 	</div>
 	<div class="card-footer d-flex flex-column flex-wrap gap-2">
 		<button class="btn btn-dark py-1" type="button" @onclick="OnCompareClick">Compare</button>
@@ -23,6 +24,9 @@
 
 	[Parameter]
 	public string Status { get; set; } = string.Empty;
+
+	[Parameter]
+	public string Visiblity { get; set; } = string.Empty;
 
 	[Parameter]
 	public string ProfileUrl { get; set; } = string.Empty;
